@@ -1,7 +1,7 @@
 # Create a new tag for the user
 resource "digitalocean_tag" "tags" {
   for_each = var.components
-  name = var.components[each.key]
+  name     = each.key
 }
 
 # Create a new Droplet in nyc3 with the user tag
