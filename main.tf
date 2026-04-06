@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "instances" {
   name   = "${var.components[each.key]}-dev"
   region = var.region
   size   = var.size
-  tags   = each.key
+  tags   = var.components[each.key]
 }
 
 ## FIREWALL RULE ALLOW ALL FOR THE USER
