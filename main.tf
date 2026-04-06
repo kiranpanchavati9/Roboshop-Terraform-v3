@@ -17,7 +17,7 @@ resource "digitalocean_droplet" "instances" {
 ## FIREWALL RULE ALLOW ALL FOR THE USER
 
 resource "digitalocean_firewall" "firewallrecords" {
-  name = "${each.key]}-fw"
+  name = "${each.key}-fw"
   for_each = var.components
 
   droplet_ids = [digitalocean_droplet.instances[each.key].id]
