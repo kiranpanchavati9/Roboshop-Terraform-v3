@@ -8,7 +8,7 @@ resource "digitalocean_tag" "tags" {
 resource "digitalocean_droplet" "instances" {
   for_each = var.components
   image  = var.image
-  name   = "${var.components[each.key]}-dev"
+  name   = "${each.key}-dev"
   region = var.region
   size   = var.size
   tags = [digitalocean_tag.tags[each.key].name]
@@ -17,20 +17,21 @@ resource "digitalocean_droplet" "instances" {
 ## FIREWALL RULE ALLOW ALL FOR THE USER
 
 resource "digitalocean_firewall" "firewallrecords" {
-  name = "${each.key}-fw"
   for_each = var.components
 
-  droplet_ids = [digitalocean_droplet.instances[each.key].id]
+name = "${each.key}-fw"
 
-  inbound_rule {
-    protocol         = var.protocol
-    port_range       = var.port_range
-    source_addresses = var.source_address
-  }
+droplet_ids = [digitalocean_droplet.instances[each.key].id]
 
-  outbound_rule {
-    protocol              = var.protocol
-    port_range            = var.port_range
-    destination_addresses = var.destination_addresses
-  }
+inbound_rule {
+  protocol         = var.protocol
+  port_range       = var.port_range
+  source_addresses = var.source_address
+}
+
+outbound_rule {
+  protocol              = var.protocol
+  port_range            = var.port_range
+  destination_addresses = var.destination_addresses
+}
 }
